@@ -165,7 +165,7 @@ module ActiveSupport
           @data.incr(name, amount, expires_in, initial)
         end
       rescue Dalli::DalliError => e
-        logger.error("DalliError: #{e.message}") if logger
+        logger.error("increment DalliError: #{e.message}") if logger
         raise if @raise_errors
         nil
       end
@@ -184,7 +184,7 @@ module ActiveSupport
           @data.decr(name, amount, expires_in, initial)
         end
       rescue Dalli::DalliError => e
-        logger.error("DalliError: #{e.message}") if logger
+        logger.error("decrement DalliError: #{e.message}") if logger
         raise if @raise_errors
         nil
       end
@@ -196,7 +196,7 @@ module ActiveSupport
           @data.flush_all
         end
       rescue Dalli::DalliError => e
-        logger.error("DalliError: #{e.message}") if logger
+        logger.error("clear DalliError: #{e.message}") if logger
         raise if @raise_errors
         nil
       end
@@ -230,7 +230,7 @@ module ActiveSupport
         # NB Backwards data compatibility, to be removed at some point
         entry.is_a?(ActiveSupport::Cache::Entry) ? entry.value : entry
       rescue Dalli::DalliError => e
-        logger.error("DalliError: #{e.message}") if logger
+        logger.error("read_entry DalliError: #{e.message}") if logger
         raise if @raise_errors
         nil
       end
@@ -243,7 +243,7 @@ module ActiveSupport
         expires_in = options[:expires_in]
         @data.send(method, key, value, expires_in, options)
       rescue Dalli::DalliError => e
-        logger.error("DalliError: #{e.message}") if logger
+        logger.error("write_entry DalliError: #{e.message}") if logger
         raise if @raise_errors
         false
       end
@@ -252,7 +252,7 @@ module ActiveSupport
       def delete_entry(key, options) # :nodoc:
         @data.delete(key)
       rescue Dalli::DalliError => e
-        logger.error("DalliError: #{e.message}") if logger
+        logger.error("delete_entry DalliError: #{e.message}") if logger
         raise if @raise_errors
         false
       end
