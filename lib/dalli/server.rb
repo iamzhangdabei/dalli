@@ -441,6 +441,22 @@ module Dalli
       if status == 1
         nil
       elsif status != 0
+        begin
+          flags = data[0...extras].unpack('N')[0]
+          Dalli.logger.error "flags #{flags}"
+          value = data[extras..-1]
+          Dalli.logger.error "value #{value}"
+          if unpack
+            result = deserialize(value, flags)
+            Dalli.logger.error "result deserialized value #{result}"
+          else
+            result = value
+            Dalli.logger.error "result value #{result}"
+          end
+          return result
+        rescue Exception => e
+          Dalli.logger.error "#{e.message}"
+        end
         raise Dalli::DalliError, "Response error #{status}: #{RESPONSE_CODES[status]}"
       elsif data
         flags = data[0...extras].unpack('N')[0]
