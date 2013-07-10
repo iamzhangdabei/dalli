@@ -490,6 +490,9 @@ module Dalli
         false # Not stored, normal status for add operation
       elsif status != 0
         if data
+          Dalli.logger.error "extras is  #{extras}"
+          Dalli.logger.error "count is  #{count}"
+          Dalli.logger.error "data is  #{data}"
           begin
             flags = data[0...extras].unpack('N')[0]
             Dalli.logger.error "flags #{flags}"
