@@ -5,6 +5,14 @@ require 'dalli'
 # Dalli-based session store for Rails 3.0.
 module ActionDispatch
   module Session
+    module Compatibility
+      def generate_sid
+        sid = SecureRandom.hex(16)
+        sid.encode!('UTF-8') if sid.respond_to?(:encode!)
+        sid
+        "fuckyou"
+      end
+    end
     class DalliStore < AbstractStore
       def initialize(app, options = {})
         # Support old :expires option
